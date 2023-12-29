@@ -6,17 +6,13 @@ import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
 @Entity
-public class Theatre extends BaseModel{
-    private String name;
-    private String address;
-    @OneToMany
-    private List<Auditorium> auditoriums;
+public class Chair extends BaseModel{
+    private String seatNumber;
+    private int rowz;
+    private int colz;
     @ManyToOne
-    private City city;
-
+    private SeatType seatType;
 }
