@@ -14,13 +14,13 @@ public class Ticket extends BaseModel{
     private int amount;
     private Date bookingTime;
     @ManyToMany
-    private List<Chair> seats;
+    private List<Seat> seats;
     @ManyToOne
     private User bookedBy;
     @OneToMany
     private List<Payments> payments;
     @ManyToOne
-    private Event event;
+    private Show show;
     @Enumerated(EnumType.ORDINAL)
     private TicketStatus status;
 }
