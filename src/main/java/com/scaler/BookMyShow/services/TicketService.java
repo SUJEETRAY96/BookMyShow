@@ -5,8 +5,9 @@ import com.scaler.BookMyShow.exception.SeatNotAvailableException;
 import com.scaler.BookMyShow.models.*;
 import com.scaler.BookMyShow.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -32,6 +33,7 @@ public class TicketService {
         this.userRepository = userRepository;
         this.ticketRepository = ticketRepository;
     }
+    @Transactional(isolation = Isolation.SERIALIZABLE , timeout = 2)
     public Ticket bookTicket(Long userId, Long showId, List<Long> seatIds)
             throws Exception {
 
@@ -42,7 +44,7 @@ public class TicketService {
         }
         List<ShowSeat> showSeats = showSeatRepository.findAllBySeatInAndShow(seats,showOptional.get());
         for(ShowSeat showSeat:showSeats){
-            if(!(showSeat.getShowSeatStatus().equals(ShowSeatStatus.AVAILABLE))){
+            if(!showSeat.getShowSeatStatus().equals(ShowSeatStatus.AVAILABLE)){
                 throw new SeatNotAvailableException("Seats are not available");
             }
         }
